@@ -289,6 +289,7 @@
     <ClCompile Include="src\models\Entity.cpp" />
     <ClCompile Include="src\models\Grass.cpp" />
     <ClCompile Include="src\models\Level.cpp" />
+    <ClCompile Include="src\models\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\managers\AssetManager.h" />
@@ -303,6 +304,7 @@
     <ClInclude Include="include\models\Grass.h" />
     <ClInclude Include="include\models\Level.h" />
     <ClInclude Include="include\models\Wall.h" />
+    <ClInclude Include="include\models\Player.h" />
     <ClInclude Include="include\utils\Vector2.h" />
   </ItemGroup>
   <ItemGroup>

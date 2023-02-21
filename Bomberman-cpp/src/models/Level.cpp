@@ -1,6 +1,7 @@
 #include "models/Level.h"
 #include <iostream>
 #include <fstream>
+#include "models/Player.h"
 #include <iostream>
 #include <random>
 
@@ -50,6 +51,13 @@ bool Level::LoadLevel(const std::string& _fileName)
 					entity->Resize(Vec2f{ 64.0f, 64.0f });
 					break;
 				}
+				case '7':
+				{
+					Grass* entity = new Grass(position);
+					rowEntities.emplace_back(entity);
+					entity->Resize(Vec2f{ 64.0f, 64.0f });
+					break;
+				}
 				case '2':
 				{
 					Wall* entity = new Wall(position);
@@ -67,9 +75,13 @@ bool Level::LoadLevel(const std::string& _fileName)
 
 				column++;
 			}
+
+			//m_map.insert({ row, rowTiles });
 			m_map.emplace_back(rowEntities);
 			row++;
 		}
+
+		m_player = new Player({ 1,1 });
 
 		file.close();
 		m_emptyPos.erase(std::remove(m_emptyPos.begin(), m_emptyPos.end(), Vec2u{ 2,1 }), m_emptyPos.end());
@@ -108,6 +120,8 @@ void Level::RenderLevel(sf::RenderTarget& _target, const Vec2f& _tileSize)
 			val->Render(_target);
 		}
 	}
+	m_player->SetSize(_tileSize);
+	m_player->Render(_target);
 }
 
 void Level::GenerateBox()
@@ -130,20 +144,24 @@ void Level::GenerateBox()
 }
 
 
-/*
 void Level::MovePlayer(Vec2f _pos) {
 	if (m_player == nullptr)
 		return;
-	Vec2f npos = m_player->GetPosition() + _pos;
-	bool c = false;
-	for (auto& it : m_entities) {
-		if (npos == it->GetPosition()) {
-			c = true;
-			return;
-		}
-	}
-	if (c)
-		return;
-	m_player->SetPosition(npos);
+	//Vec2f npos = _player.GetPosition() + _pos;
+	//bool c = false;
+	//for (auto& it : m_entities) {
+	//	if (_pos == it->GetPosition()) {
+	//		c = true;
+	//		return;
+	//	}
+	//}
+	//if (c)
+	//	return;
+	m_player->SetPosition(_pos);
 }
-*/
+
+Player* Level::GetPlayer()
+{
+	return m_player;
+}
+
