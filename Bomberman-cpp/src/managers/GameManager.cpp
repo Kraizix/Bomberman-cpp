@@ -3,6 +3,7 @@
 #include "managers/WindowManager.h"
 #include "managers/LevelManager.h"
 #include <iostream>
+#include <models/Player.h>
 
 GameManager* GameManager::m_instance = nullptr;
 
@@ -51,6 +52,7 @@ bool GameManager::Run(const std::string& _title, const Vec2i& _size)
         return false;
 
     Level* level = levelManager->LoadLevel("resources/levels/level.txt");
+    Player* player = level->GetPlayer();
     if (level == nullptr)
         return false;
     const Vec2f tileSize = { 16.0f, 16.0f };
@@ -65,7 +67,7 @@ bool GameManager::Run(const std::string& _title, const Vec2i& _size)
     sf::View view(sf::FloatRect(0.f, 0.f, _size.x, _size.y));
 
     while (window->isOpen())
-    {
+    {   
         sf::Event event;
         while (window->pollEvent(event))
         {
@@ -74,6 +76,25 @@ bool GameManager::Run(const std::string& _title, const Vec2i& _size)
             case sf::Event::Closed:
                 window->close();
                 break;
+            case sf::Event::KeyPressed:
+                switch (event.key.code)
+                {
+                case sf::Keyboard::Q:
+                    level->MovePlayer(player->Move({ -1,0 }));
+                    break;
+
+                case sf::Keyboard::S:
+                    level->MovePlayer(player->Move({ 0,1 }));
+                    break;
+
+                case sf::Keyboard::Z:
+                    level->MovePlayer(player->Move({ 0,-1 }));
+                    break;
+
+                case sf::Keyboard::D:
+                    level->MovePlayer(player->Move({ 1,0 }));
+                    break;
+                }
             }
         }
         window->clear();
@@ -89,10 +110,11 @@ bool GameManager::LoadResources()
     bool success = true;
     AssetManager* assetManager = AssetManager::GetInstance();
 
-    success &= assetManager->LoadTexture("block.png", "block");
-    success &= assetManager->LoadTexture("border.png", "border");
-    success &= assetManager->LoadTexture("grass.png", "grass");
-    success &= assetManager->LoadTexture("obstacle.png", "obstacle");
+    success &= assetManager->LoadTexture("map_assets/block.png", "block");
+    success &= assetManager->LoadTexture("map_assets/border.png", "border");
+    success &= assetManager->LoadTexture("map_assets/grass.png", "grass");
+    success &= assetManager->LoadTexture("map_assets/obstacle.png", "obstacle");
+    success &= assetManager->LoadTexture("mc_animations/F1.png", "F1");
 
     if (success)
     {

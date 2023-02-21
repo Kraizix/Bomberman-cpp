@@ -1,6 +1,7 @@
 #include "models/Level.h"
 #include <iostream>
 #include <fstream>
+#include "models/Player.h"
 
 Level::~Level()
 {
@@ -47,6 +48,13 @@ bool Level::LoadLevel(const std::string& _fileName)
 					rowTiles.insert({ column, entity });
 					break;
 				}
+				case '7':
+				{
+					Grass* entity = new Grass(position);
+					m_entities.emplace_back(entity);
+					rowTiles.insert({ column, entity });
+					break;
+				}
 				default:
 				{
 					Block* entity = new Block(position);
@@ -58,9 +66,17 @@ bool Level::LoadLevel(const std::string& _fileName)
 				column++;
 			}
 
+			/*m_player = new Player({1,1});
+			m_entities.emplace_back(m_player);
+			rowTiles.insert({ column, m_player });*/
+
 			m_map.insert({ row, rowTiles });
 			row++;
 		}
+
+
+		m_player = new Player({ 1,1 });
+		m_entities.emplace_back(m_player);
 
 		file.close();
 		return true;
@@ -95,20 +111,25 @@ void Level::RenderLevel(sf::RenderTarget& _target, const Vec2f& _tileSize)
 	}
 }
 
-/*
+
 void Level::MovePlayer(Vec2f _pos) {
 	if (m_player == nullptr)
 		return;
-	Vec2f npos = m_player->GetPosition() + _pos;
-	bool c = false;
-	for (auto& it : m_entities) {
-		if (npos == it->GetPosition()) {
-			c = true;
-			return;
-		}
-	}
-	if (c)
-		return;
-	m_player->SetPosition(npos);
+	//Vec2f npos = _player.GetPosition() + _pos;
+	//bool c = false;
+	//for (auto& it : m_entities) {
+	//	if (_pos == it->GetPosition()) {
+	//		c = true;
+	//		return;
+	//	}
+	//}
+	//if (c)
+	//	return;
+	m_player->SetPosition(_pos);
 }
-*/
+
+Player* Level::GetPlayer()
+{
+	return m_player;
+}
+
