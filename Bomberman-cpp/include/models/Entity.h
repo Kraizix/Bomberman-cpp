@@ -4,6 +4,17 @@
 #include <SFML/Graphics.hpp>
 #include "utils/Vector2.h"
 
+enum EntityType
+{
+	TBrick,
+	TWall,
+	TGrass,
+	TPlayer,
+	TEnemy,
+	TBonus,
+	THatch
+};
+
 class Entity
 {
 public:
@@ -15,6 +26,9 @@ public:
 	Vec2f GetPosition();
 	void SetSize(const Vec2f& _size);
 	Vec2f GetSize();
+	bool IsDestroyable();
+	EntityType GetEntityType();
+	void SetEntityType(EntityType);
 	void Resize(const Vec2f& _size);
 
 private:
@@ -22,4 +36,7 @@ private:
 	Vec2f m_spriteSize;
 	Vec2f m_position;
 	Vec2f m_size;
+	EntityType m_EntityType;
+protected:
+	bool m_destroyable;
 };

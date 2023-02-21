@@ -74,6 +74,22 @@ Vec2f Entity::GetSize()
 	return m_size;
 }
 
+bool Entity::IsDestroyable()
+{
+	return m_destroyable;
+}
+
+void Entity::SetEntityType(EntityType type)
+{
+	m_EntityType = type;
+}
+
+EntityType Entity::GetEntityType()
+{
+	return m_EntityType;
+}
+
+
 void Entity::Resize(const Vec2f &_size)
 {
 	m_size = _size;
