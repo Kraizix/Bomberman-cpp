@@ -73,3 +73,10 @@ Vec2f Entity::GetSize()
 {
 	return m_size;
 }
+
+void Entity::Resize(const Vec2f &_size)
+{
+	m_size = _size;
+	m_sprite->setScale(m_size.x / m_sprite->getLocalBounds().width, m_size.y / m_sprite->getLocalBounds().height);
+}
+

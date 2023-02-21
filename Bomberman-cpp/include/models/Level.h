@@ -6,6 +6,8 @@
 #include "Entity.h"
 #include "Block.h"
 #include "Grass.h"
+#include "Border.h"
+#include "Obstacle.h"
 
 class Level
 {
@@ -16,8 +18,10 @@ public:
 	Vec2f GetSize(const Vec2f& _tileSize);
 	void RenderLevel(sf::RenderTarget& _target, const Vec2f& _tileSize);
 	void MovePlayer(Vec2f _pos);
+	void GenerateBox(std::vector<Vec2u> pos);
 
 private:
 	std::vector<Entity*> m_entities;
 	std::unordered_map<unsigned int, std::unordered_map<unsigned int, Entity*>> m_map;
+	std::vector<std::vector<Entity*>> map;
 };

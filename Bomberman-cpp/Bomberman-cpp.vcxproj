@@ -137,9 +137,11 @@
     <ClCompile Include="src\managers\LevelManager.cpp" />
     <ClCompile Include="src\managers\WindowManager.cpp" />
     <ClCompile Include="src\models\Block.cpp" />
+    <ClCompile Include="src\models\Border.cpp" />
     <ClCompile Include="src\models\Entity.cpp" />
     <ClCompile Include="src\models\Grass.cpp" />
     <ClCompile Include="src\models\Level.cpp" />
+    <ClCompile Include="src\models\Obstacle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\managers\AssetManager.h" />
@@ -147,9 +149,11 @@
     <ClInclude Include="include\managers\LevelManager.h" />
     <ClInclude Include="include\managers\WindowManager.h" />
     <ClInclude Include="include\models\Block.h" />
+    <ClInclude Include="include\models\Border.h" />
     <ClInclude Include="include\models\Entity.h" />
     <ClInclude Include="include\models\Grass.h" />
     <ClInclude Include="include\models\Level.h" />
+    <ClInclude Include="include\models\Obstacle.h" />
     <ClInclude Include="include\utils\Vector2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

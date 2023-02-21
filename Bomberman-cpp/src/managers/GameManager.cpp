@@ -53,7 +53,7 @@ bool GameManager::Run(const std::string& _title, const Vec2i& _size)
     Level* level = levelManager->LoadLevel("resources/levels/level.txt");
     if (level == nullptr)
         return false;
-    const Vec2f tileSize = { 16.0f, 16.0f };
+    const Vec2f tileSize = { 64.0f, 64.0f };
     Vec2f levelSize = level->GetSize(tileSize);
     std::cout << "Level Size : (" << levelSize.x << " x " << levelSize.y << ")" << std::endl;
     float ratioW = levelSize.x / _size.x;

@@ -15,6 +15,7 @@ public:
 	Vec2f GetPosition();
 	void SetSize(const Vec2f& _size);
 	Vec2f GetSize();
+	void Resize(const Vec2f& _size);
 
 private:
 	sf::Sprite* m_sprite;
