@@ -4,10 +4,9 @@
 #include <vector>
 #include <unordered_map>
 #include "Entity.h"
-#include "Block.h"
+#include "Brick.h"
 #include "Grass.h"
-#include "Border.h"
-#include "Obstacle.h"
+#include "Wall.h"
 
 class Level
 {
@@ -18,9 +17,9 @@ public:
 	Vec2f GetSize(const Vec2f& _tileSize);
 	void RenderLevel(sf::RenderTarget& _target, const Vec2f& _tileSize);
 	void MovePlayer(Vec2f _pos);
-	void GenerateBox(std::vector<Vec2u> pos);
+	void GenerateBox();
 
 private:
-	std::vector<Entity*> m_entities;
 	std::vector<std::vector<Entity*>> m_map;
+	std::vector<Vec2u> m_emptyPos;
 };

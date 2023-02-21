@@ -6,13 +6,6 @@
 
 Level::~Level()
 {
-	for (auto& it : m_entities)
-	{
-		if (it != nullptr)
-			delete it;
-	}
-	m_entities.clear();
-
 	for(auto& it : m_map)
 	{
 		for (auto& v : it)
@@ -22,6 +15,7 @@ Level::~Level()
 		}
 		it.clear();
 	}
+	m_emptyPos.clear();
 	m_map.clear();
 }
 
@@ -52,13 +46,13 @@ bool Level::LoadLevel(const std::string& _fileName)
 				{
 					Grass* entity = new Grass(position);
 					rowEntities.emplace_back(entity);
-					emptyPos.push_back(position);
+					m_emptyPos.push_back(position);
 					entity->Resize(Vec2f{ 64.0f, 64.0f });
 					break;
 				}
 				case '2':
 				{
-					Border* entity = new Border(position);
+					Wall* entity = new Wall(position);
 					rowEntities.emplace_back(entity);
 					entity->Resize(Vec2f{ 64.0f, 64.0f});
 					break;
@@ -78,7 +72,9 @@ bool Level::LoadLevel(const std::string& _fileName)
 		}
 
 		file.close();
-		GenerateBox(emptyPos);
+		m_emptyPos.erase(std::remove(m_emptyPos.begin(), m_emptyPos.end(), Vec2u{ 2,1 }), m_emptyPos.end());
+		m_emptyPos.erase(std::remove(m_emptyPos.begin(), m_emptyPos.end(), Vec2u{ 1,2 }), m_emptyPos.end());
+		GenerateBox();
 		return true;
 	}
 	else
@@ -114,19 +110,19 @@ void Level::RenderLevel(sf::RenderTarget& _target, const Vec2f& _tileSize)
 	}
 }
 
-void Level::GenerateBox(std::vector<Vec2u> pos)
+void Level::GenerateBox()
 {
 	std::random_device r;
 	std::default_random_engine e(r());
-	int n = 20;
+	int n = 40;
 	while(n > 0)
 	{
-		std::uniform_int_distribution<int> dist(0, pos.size() - 1);
+		std::uniform_int_distribution<int> dist(0, m_emptyPos.size() - 1);
 		int i = dist(e);
-		Vec2u p = pos[i];
+		Vec2u p = m_emptyPos[i];
 		std::cout << p.x << ", " << p.y << std::endl;
-		pos.erase(pos.begin() + i);
-		Block* obs = new Block(p);
+		m_emptyPos.erase(m_emptyPos.begin() + i);
+		Brick* obs = new Brick(p);
 		obs->Resize(Vec2f{ 64.0f, 64.0f });
 		m_map[p.y][p.x] = obs;
 		n--;

@@ -89,10 +89,9 @@ bool GameManager::LoadResources()
     bool success = true;
     AssetManager* assetManager = AssetManager::GetInstance();
 
-    success &= assetManager->LoadTexture("block.png", "block");
-    success &= assetManager->LoadTexture("border.png", "border");
+    success &= assetManager->LoadTexture("brick.png", "brick");
+    success &= assetManager->LoadTexture("wall.png", "wall");
     success &= assetManager->LoadTexture("grass.png", "grass");
-    success &= assetManager->LoadTexture("obstacle.png", "obstacle");
 
     if (success)
     {
