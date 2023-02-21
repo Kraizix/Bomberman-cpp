@@ -13,9 +13,14 @@ Level::~Level()
 	}
 	m_entities.clear();
 
-	for (auto& it : m_map)
+	for(auto& it : m_map)
 	{
-		it.second.clear();
+		for (auto& v : it)
+		{
+			if (v != nullptr)
+				delete v;
+		}
+		it.clear();
 	}
 	m_map.clear();
 }
@@ -35,9 +40,7 @@ bool Level::LoadLevel(const std::string& _fileName)
 		while (std::getline(file, line))
 		{
 			column = 0;
-			std::unordered_map<unsigned int, Entity*> rowTiles;
 			std::vector<Entity*> rowEntities;
-			
 
 			for (auto& c : line)
 			{
@@ -48,18 +51,14 @@ bool Level::LoadLevel(const std::string& _fileName)
 				case '1':
 				{
 					Grass* entity = new Grass(position);
-					m_entities.emplace_back(entity);
-					rowTiles.insert({ column, entity });
 					rowEntities.emplace_back(entity);
-					entity->Resize(Vec2f{ 64.0f, 64.0f });
 					emptyPos.push_back(position);
+					entity->Resize(Vec2f{ 64.0f, 64.0f });
 					break;
 				}
 				case '2':
 				{
 					Border* entity = new Border(position);
-					m_entities.emplace_back(entity);
-					rowTiles.insert({ column, entity });
 					rowEntities.emplace_back(entity);
 					entity->Resize(Vec2f{ 64.0f, 64.0f});
 					break;
@@ -67,8 +66,6 @@ bool Level::LoadLevel(const std::string& _fileName)
 				default:
 				{
 					Grass* entity = new Grass(position);
-					m_entities.emplace_back(entity);
-					rowTiles.insert({ column, entity });
 					rowEntities.emplace_back(entity);
 					entity->Resize(Vec2f{ 64.0f, 64.0f });
 				}
@@ -76,8 +73,7 @@ bool Level::LoadLevel(const std::string& _fileName)
 
 				column++;
 			}
-			map.emplace_back(rowEntities);
-			m_map.insert({ row, rowTiles });
+			m_map.emplace_back(rowEntities);
 			row++;
 		}
 
@@ -108,12 +104,7 @@ Vec2f Level::GetSize(const Vec2f& _tileSize)
 
 void Level::RenderLevel(sf::RenderTarget& _target, const Vec2f& _tileSize)
 {
-	/*for (auto& it : m_entities)
-	{
-		it->SetSize(_tileSize);
-		it->Render(_target);
-	}*/
-	for (auto& row: map)
+	for (auto& row: m_map)
 	{
 		for(auto& val : row)
 		{
@@ -127,16 +118,17 @@ void Level::GenerateBox(std::vector<Vec2u> pos)
 {
 	std::random_device r;
 	std::default_random_engine e(r());
-	int n = 100;
+	int n = 20;
 	while(n > 0)
 	{
 		std::uniform_int_distribution<int> dist(0, pos.size() - 1);
-		Vec2u p = pos[dist(e)];
+		int i = dist(e);
+		Vec2u p = pos[i];
 		std::cout << p.x << ", " << p.y << std::endl;
-		pos.erase(pos.begin() + dist(e));
+		pos.erase(pos.begin() + i);
 		Block* obs = new Block(p);
 		obs->Resize(Vec2f{ 64.0f, 64.0f });
-		map[p.y][p.x] = obs;
+		m_map[p.y][p.x] = obs;
 		n--;
 	}
 }

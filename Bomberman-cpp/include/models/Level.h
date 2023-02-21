@@ -22,6 +22,5 @@ public:
 
 private:
 	std::vector<Entity*> m_entities;
-	std::unordered_map<unsigned int, std::unordered_map<unsigned int, Entity*>> m_map;
-	std::vector<std::vector<Entity*>> map;
+	std::vector<std::vector<Entity*>> m_map;
 };
