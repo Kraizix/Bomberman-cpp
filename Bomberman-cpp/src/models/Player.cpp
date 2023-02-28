@@ -1,4 +1,5 @@
 #include "models/Player.h"
+#include "models/Bombs.h"
 #include <iostream>
 
 Player::Player(const Vec2f& _position)
@@ -21,10 +22,24 @@ Vec2f Player::Move(Vec2f move)
 	m_actualPosition = *GetPosition();
 	move.x *= (m_speed * m_speedCoeficient) / RATE;
 	move.y *= (m_speed * m_speedCoeficient) / RATE;
-	m_actualPosition.Add(move);
-	return m_actualPosition;
-}
 
-void Player::placeBomb()
-{
+	m_actualPosition.Add(move);
+
+	if (m_actualPosition.x > 13.0f) 
+	{
+		m_actualPosition.x = 13.0f;
+	}
+	else if (m_actualPosition.x < 1.0f)
+	{
+		m_actualPosition.x = 1.0f;
+	}
+	else if (m_actualPosition.y < 1.0f)
+	{
+		m_actualPosition.y = 1.0f;
+	}
+	else if (m_actualPosition.y > 11.0f)
+	{
+		m_actualPosition.y = 11.0f;
+	}
+	return m_actualPosition;
 }

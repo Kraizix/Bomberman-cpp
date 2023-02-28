@@ -12,7 +12,8 @@ enum EntityType
 	TPlayer,
 	TEnemy,
 	TBonus,
-	THatch
+	THatch,
+	TBomb
 };
 
 class Entity
