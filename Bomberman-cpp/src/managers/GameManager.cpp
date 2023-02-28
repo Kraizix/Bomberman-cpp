@@ -103,7 +103,9 @@ bool GameManager::Run(const std::string& _title, const Vec2i& _size)
                 case sf::Keyboard::D:
                     level->MovePlayer(player->Move({ 1,0 }), { 1,0 });
                     break;
-
+                case sf::Keyboard::Space:
+                    level->UpdateTrap();
+                    break;
                 case sf::Keyboard::E:
                     placeBomb = true;
                     t2 = clock.getElapsedTime().asSeconds();
@@ -117,7 +119,6 @@ bool GameManager::Run(const std::string& _title, const Vec2i& _size)
         level->RenderLevel(*window, tileSize, placeBomb);
         window->display();
         level->GetBombs()->Detonate(t1,clock,t2);
-        std::cout << t1.asSeconds() << std::endl;
     }
     return true;
 }

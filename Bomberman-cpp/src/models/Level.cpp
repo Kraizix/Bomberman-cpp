@@ -121,7 +121,7 @@ void Level::RenderLevel(sf::RenderTarget& _target, const Vec2f& _tileSize, bool&
 
 	if (_placeBomb)
 	{
-		m_bomb->SetPosition(m_player->GetPosition());
+		m_bomb->SetPosition(*m_player->GetPosition());
 		_placeBomb = false;
 	}
 
@@ -176,7 +176,6 @@ void Level::UpdateTrap()
 	m_trap->changeTexture();
 	m_trap->Resize(Vec2f{ 64.0f, 64.0f });
 }
-}
 
 EntityType Level::GetCaseType(Vec2f _pos, Vec2f _direction)
 {
@@ -213,7 +212,7 @@ EntityType Level::GetCaseType(Vec2f _pos, Vec2f _direction)
 	{
 		for (auto& ent : vec)
 		{
-			if(ent->GetPosition().x == x && ent->GetPosition().y == y)
+			if(ent->GetPosition()->x == x && ent->GetPosition()->y == y)
 				return ent->GetEntityType();
 		}
 	}
