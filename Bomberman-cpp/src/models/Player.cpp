@@ -17,7 +17,8 @@ Player::Player(const Vec2f& _position)
 
 Vec2f Player::Move(Vec2f move)
 {
-	m_actualPosition = this->GetPosition();
+
+	m_actualPosition = *GetPosition();
 	move.x *= (m_speed * m_speedCoeficient) / RATE;
 	move.y *= (m_speed * m_speedCoeficient) / RATE;
 	m_actualPosition.Add(move);

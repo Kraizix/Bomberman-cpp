@@ -23,9 +23,9 @@ public:
 	void Render(sf::RenderTarget& _target);
 	void SetSprite(const std::string& _assetId, const Vec2f& _position = { 0.f, 0.f }, const Vec2f& _size = { 0.f, 0.f });
 	void SetPosition(const Vec2f& _position);
-	Vec2f GetPosition();
+	Vec2f* GetPosition();
 	void SetSize(const Vec2f& _size);
-	Vec2f GetSize();
+	Vec2f* GetSize();
 	bool IsDestroyable();
 	EntityType GetEntityType();
 	void SetEntityType(EntityType);

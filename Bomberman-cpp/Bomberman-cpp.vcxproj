@@ -305,6 +305,7 @@
     <ClInclude Include="include\models\Level.h" />
     <ClInclude Include="include\models\Wall.h" />
     <ClInclude Include="include\models\Player.h" />
+    <ClInclude Include="include\utils\DirVector.h" />
     <ClInclude Include="include\utils\Vector2.h" />
   </ItemGroup>
   <ItemGroup>

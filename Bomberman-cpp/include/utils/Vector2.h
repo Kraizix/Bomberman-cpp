@@ -208,6 +208,8 @@ struct Vec2
 	}
 };
 
+
+
 using Vec2f = Vec2<float>;
 using Vec2d = Vec2<double>;
 using Vec2i = Vec2<int>;

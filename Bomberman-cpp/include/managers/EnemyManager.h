@@ -2,15 +2,19 @@
 #include <vector>
 
 #include "models/Entity.h"
+#include <models/Enemy.h>
 
 class EnemyManager
 {
 public:
     EnemyManager()=delete;
     EnemyManager(std::vector<std::vector<Entity*>>& _map);
-    bool AddEnemyToManager(Entity*);
-    bool SetM_Entities(std::vector<std::vector<Entity*>>);
+    static EnemyManager* GetInstance(std::vector<std::vector<Entity*>>& _map);
+    void RenderEnemies(sf::RenderTarget&, const Vec2f&);
+    void MoveEnemies();
+    void PushM_Enemy(Enemy*);
 private:
-    std::vector<Entity*> m_enemies;
+    static EnemyManager* m_instance;
+    std::vector<Enemy*> m_enemies;
     std::vector<std::vector<Entity*>>& m_map;
 };

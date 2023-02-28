@@ -4,6 +4,7 @@
 #include "managers/LevelManager.h"
 #include <iostream>
 #include <models/Player.h>
+#include <managers/EnemyManager.h>
 
 GameManager* GameManager::m_instance = nullptr;
 
@@ -50,10 +51,12 @@ bool GameManager::Run(const std::string& _title, const Vec2i& _size)
     LevelManager* levelManager = LevelManager::GetInstance();
     if (levelManager == nullptr)
         return false;
-
     Level* level = levelManager->LoadLevel("resources/levels/level.txt");
     Player* player = level->GetPlayer();
     if (level == nullptr)
+        return false;
+    EnemyManager* enemyManager = EnemyManager::GetInstance(level->GetMap());
+    if (enemyManager == nullptr)
         return false;
     const Vec2f tileSize = { 64.0f, 64.0f };
     Vec2f levelSize = level->GetSize(tileSize);
@@ -97,6 +100,7 @@ bool GameManager::Run(const std::string& _title, const Vec2i& _size)
                 }
             }
         }
+        enemyManager->MoveEnemies();
         window->clear();
         window->setView(view);
         level->RenderLevel(*window, tileSize);

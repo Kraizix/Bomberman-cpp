@@ -20,6 +20,8 @@ public:
 	void MovePlayer(Vec2f _pos);
 	Player* GetPlayer();
 	void GenerateBox();
+	void GenerateAI();
+	std::vector<std::vector<Entity*>>& GetMap();
 
 private:
 	Player* m_player;

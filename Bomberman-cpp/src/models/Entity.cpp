@@ -21,9 +21,9 @@ void Entity::Render(sf::RenderTarget& _target)
 {
 	if (m_sprite != nullptr)
 	{
-		Vec2f position = GetPosition();
-		Vec2f size = GetSize();
-		m_sprite->setPosition(position * size);
+		Vec2f* position = GetPosition();
+		Vec2f* size = GetSize();
+		m_sprite->setPosition(*position * *size);
 		_target.draw(*m_sprite);
 	}
 }
@@ -59,9 +59,9 @@ void Entity::SetPosition(const Vec2f& _position)
 	m_position = _position;
 }
 
-Vec2f Entity::GetPosition()
+Vec2f* Entity::GetPosition()
 {
-	return m_position;
+	return &m_position;
 }
 
 void Entity::SetSize(const Vec2f& _size)
@@ -69,9 +69,9 @@ void Entity::SetSize(const Vec2f& _size)
 	m_size = _size;
 }
 
-Vec2f Entity::GetSize()
+Vec2f* Entity::GetSize()
 {
-	return m_size;
+	return &m_size;
 }
 
 bool Entity::IsDestroyable()
