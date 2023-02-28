@@ -5,6 +5,7 @@ Trap::Trap(const Vec2f& _position)
 {
 	SetPosition(_position);
 	SetSprite("brick");
+	SetEntityType(THatch);
 	m_textures.emplace_back("c_trap");
 	m_textures.emplace_back("o_trap");
 }
