@@ -118,6 +118,8 @@ bool GameManager::LoadResources()
     success &= assetManager->LoadTexture("map_assets/wall.png", "wall");
     success &= assetManager->LoadTexture("map_assets/grass.png", "grass");
     success &= assetManager->LoadTexture("mc_animations/F1.png", "F1");
+    success &= assetManager->LoadTexture("map_assets/opened_trap.png", "o_trap");
+    success &= assetManager->LoadTexture("map_assets/closed_trap.png", "c_trap");
 
     if (success)
     {

@@ -211,6 +211,7 @@
     <ClCompile Include="src\managers\LevelManager.cpp" />
     <ClCompile Include="src\managers\WindowManager.cpp" />
     <ClCompile Include="src\models\Brick.cpp" />
+    <ClCompile Include="src\models\Trap.cpp" />
     <ClCompile Include="src\models\Wall.cpp" />
     <ClCompile Include="src\models\Enemy.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
@@ -303,6 +304,7 @@
     <ClInclude Include="include\models\Entity.h" />
     <ClInclude Include="include\models\Grass.h" />
     <ClInclude Include="include\models\Level.h" />
+    <ClInclude Include="include\models\Trap.h" />
     <ClInclude Include="include\models\Wall.h" />
     <ClInclude Include="include\models\Player.h" />
     <ClInclude Include="include\utils\DirVector.h" />
