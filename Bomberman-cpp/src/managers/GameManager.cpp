@@ -32,6 +32,7 @@ GameManager::~GameManager() {
 
 bool GameManager::Run(const std::string& _title, const Vec2i& _size)
 {
+    bool placeBomb = false;
     bool success = LoadResources();
     if (!success)
         return false;
@@ -66,9 +67,14 @@ bool GameManager::Run(const std::string& _title, const Vec2i& _size)
     std::cout << "Level center : (" << centerX << " x " << centerY << ")" << std::endl;
     sf::View view(sf::FloatRect(0.f, 0.f, _size.x, _size.y));
 
+    sf::Clock clock;
+    sf::Time t1 = clock.restart();
+    float t2 = 0;
     while (window->isOpen())
-    {   
+    {
+        t1 = clock.getElapsedTime();
         sf::Event event;
+        int boum = 3;
         while (window->pollEvent(event))
         {
             switch (event.type) 
@@ -80,27 +86,34 @@ bool GameManager::Run(const std::string& _title, const Vec2i& _size)
                 switch (event.key.code)
                 {
                 case sf::Keyboard::Q:
-                    level->MovePlayer(player->Move({ -1,0 }));
+                    level->MovePlayer(player->Move({ -1,0 }), { -1,0 });
                     break;
 
                 case sf::Keyboard::S:
-                    level->MovePlayer(player->Move({ 0,1 }));
+                    level->MovePlayer(player->Move({ 0,1 }), { 0,1 });
                     break;
 
                 case sf::Keyboard::Z:
-                    level->MovePlayer(player->Move({ 0,-1 }));
+                    level->MovePlayer(player->Move({ 0,-1 }), { 0,-1 });
                     break;
 
                 case sf::Keyboard::D:
-                    level->MovePlayer(player->Move({ 1,0 }));
+                    level->MovePlayer(player->Move({ 1,0 }), { 1,0 });
+                    break;
+
+                case sf::Keyboard::E:
+                    placeBomb = true;
+                    t2 = clock.getElapsedTime().asSeconds();
                     break;
                 }
             }
         }
         window->clear();
         window->setView(view);
-        level->RenderLevel(*window, tileSize);
+        level->RenderLevel(*window, tileSize, placeBomb);
         window->display();
+        level->GetBombs()->Detonate(t1,clock,t2);
+        std::cout << t1.asSeconds() << std::endl;
     }
     return true;
 }
@@ -114,6 +127,7 @@ bool GameManager::LoadResources()
     success &= assetManager->LoadTexture("map_assets/wall.png", "wall");
     success &= assetManager->LoadTexture("map_assets/grass.png", "grass");
     success &= assetManager->LoadTexture("mc_animations/F1.png", "F1");
+    success &= assetManager->LoadTexture("bomb_animations/B1.png", "B1");
 
     if (success)
     {

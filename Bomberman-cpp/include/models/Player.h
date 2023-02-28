@@ -11,7 +11,6 @@ class Player : public Entity
 		Player(const Vec2f& _position);
 		virtual ~Player() = default;
 		Vec2f Move(Vec2f);
-		void placeBomb();
 
 	private:
 		Vec2f m_actualPosition;
