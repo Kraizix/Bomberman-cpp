@@ -74,6 +74,13 @@ bool GameManager::Run(const std::string& _title, const Vec2i& _size)
             case sf::Event::Closed:
                 window->close();
                 break;
+            case sf::Event::KeyPressed:
+                std::cout << "salut" << std::endl;
+                if (event.key.code == sf::Keyboard::Space)
+                {
+                    std::cout << "salut" << std::endl;
+                    level->UpdateTrap();
+                }
             }
         }
         window->clear();
@@ -92,6 +99,8 @@ bool GameManager::LoadResources()
     success &= assetManager->LoadTexture("brick.png", "brick");
     success &= assetManager->LoadTexture("wall.png", "wall");
     success &= assetManager->LoadTexture("grass.png", "grass");
+    success &= assetManager->LoadTexture("opened_trap.png", "o_trap");
+    success &= assetManager->LoadTexture("closed_trap.png", "c_trap");
 
     if (success)
     {
