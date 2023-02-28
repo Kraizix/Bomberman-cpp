@@ -141,7 +141,23 @@ void Level::GenerateBox()
 		m_map[p.y][p.x] = obs;
 		n--;
 	}
+	std::uniform_int_distribution<int> dist(0, m_emptyPos.size() - 1);
+	int i = dist(e);
+	Vec2u p = m_emptyPos[i];
+	std::cout << p.x << ", " << p.y << std::endl;
+	m_emptyPos.erase(m_emptyPos.begin() + i);
+	Trap* obs = new Trap(p);
+	obs->Resize(Vec2f{ 64.0f, 64.0f });
+	m_trap = obs;
+	m_map[p.y][p.x] = obs;
 }
+
+void Level::UpdateTrap()
+{
+	m_trap->changeTexture();
+	m_trap->Resize(Vec2f{ 64.0f, 64.0f });
+}
+
 
 
 void Level::MovePlayer(Vec2f _pos) {

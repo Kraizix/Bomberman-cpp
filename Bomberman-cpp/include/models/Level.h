@@ -8,6 +8,7 @@
 #include "Grass.h"
 #include "Player.h"
 #include "Wall.h"
+#include "Trap.h"
 
 class Level
 {
@@ -20,9 +21,11 @@ public:
 	void MovePlayer(Vec2f _pos);
 	Player* GetPlayer();
 	void GenerateBox();
+	void UpdateTrap();
 
 private:
 	Player* m_player;
 	std::vector<std::vector<Entity*>> m_map;
 	std::vector<Vec2u> m_emptyPos;
+	Trap* m_trap;
 };
