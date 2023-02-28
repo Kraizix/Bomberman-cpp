@@ -20,7 +20,7 @@ void Enemy::Move(std::vector<std::vector<Entity*>> Map)
     if (m_steps<=0 || 
         Map.at(std::round(GetPosition()->y + m_direction->y)).at(std::round(GetPosition()->x + m_direction->x))->GetEntityType() != TGrass) 
     {
-        m_steps = 
+        m_steps = 0;
         GetNextPosition(Map);
         Move(Map);
         return;
