@@ -147,7 +147,7 @@ void Level::GenerateBox()
 {
 	std::random_device r;
 	std::default_random_engine e(r());
-	int n = 40;
+	int n = 10;
 	while(n > 0)
 	{
 		std::uniform_int_distribution<int> dist(0, m_emptyPos.size() - 1);
@@ -177,46 +177,25 @@ void Level::UpdateTrap()
 	m_trap->Resize(Vec2f{ 64.0f, 64.0f });
 }
 
-EntityType Level::GetCaseType(Vec2f _pos, Vec2f _direction)
+bool Level::GetCaseType(Vec2f _pos, Vec2f _direction)
 {
-	float x = 0.0f;
-	float y = 0.0f;
-
-	if (_direction.x == 1)
+	float x1, x2, y1, y2;
+	std::cout << _pos.x << ":" << _pos.y << std::endl;
+	if (_direction.x != 0)
 	{
-		x = ceil(_pos.x);
-	}
-	else if(_direction.x == -1)
+		x1 = _direction.x == 1 ? ceil(_pos.x-0.05f) : floor(_pos.x+0.05);
+		x2 = _direction.x == 1 ? ceil(_pos.x-0.05) : floor(_pos.x+0.05);
+		y1 = floor(_pos.y+0.05);
+		y2 = ceil(_pos.y-0.05);
+	}else if( _direction.y != 0)
 	{
-		x = floor(_pos.x);
+		x1 = floor(_pos.x+0.05f);
+		x2 = ceil(_pos.x-0.05f);
+		y1 = _direction.y == 1 ? ceil(_pos.y-0.05) : floor(_pos.y+0.05);
+		y2 = _direction.y == 1 ? ceil(_pos.y-0.05) : floor(_pos.y+0.05);
 	}
-	else
-	{
-		x = round(_pos.x);
-	}
-	
-	if (_direction.y == 1)
-	{
-		y = ceil(_pos.y);
-	}
-	else if (_direction.y == -1)
-	{
-		y = floor(_pos.y);
-	}
-	else
-	{
-		y = round(_pos.y);
-	}
-
-	for (auto& vec : m_map) 
-	{
-		for (auto& ent : vec)
-		{
-			if(ent->GetPosition()->x == x && ent->GetPosition()->y == y)
-				return ent->GetEntityType();
-		}
-	}
-	return TGrass;
+	std::cout << x1 << y1 << "//" << x2 << y2 << std::endl;
+	return m_map[y1][x1]->GetEntityType() != TWall && m_map[y1][x1]->GetEntityType() != TBrick && m_map[y2][x2]->GetEntityType() != TWall && m_map[y2][x2]->GetEntityType() != TBrick;
 }
 void Level::GenerateAI()
 {
@@ -249,7 +228,7 @@ std::vector<std::vector<Entity*>>& Level::GetMap()
 
 
 void Level::MovePlayer(Vec2f _pos, Vec2f _direction) {
-	if (m_player == nullptr || GetCaseType(_pos, _direction) == TBrick || GetCaseType(_pos, _direction) == TWall)
+	if (m_player == nullptr || !GetCaseType(_pos, _direction))
 		return;
 
 	//std::cout << "floor : " << floor(_pos.x) << " " << floor(_pos.y) << std::endl;

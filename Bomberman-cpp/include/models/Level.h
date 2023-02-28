@@ -23,7 +23,7 @@ public:
 	Player* GetPlayer();
 	Bombs* GetBombs();
 	void GenerateBox();
-	EntityType GetCaseType(Vec2f _pos, Vec2f _direction);
+	bool GetCaseType(Vec2f _pos, Vec2f _direction);
 	void UpdateTrap();
 	void GenerateAI();
 	std::vector<std::vector<Entity*>>& GetMap();
