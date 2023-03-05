@@ -30,10 +30,10 @@ void EnemyManager::PushM_Enemy(Enemy* entity)
     m_enemies.push_back(entity);
 }
 
-void EnemyManager::MoveEnemies()
+void EnemyManager::MoveEnemies(float deltaT)
 {
     for (Enemy* enemy : m_enemies)
     {
-        enemy->Move(m_map);
+        enemy->Move(m_map,deltaT);
     }
 }

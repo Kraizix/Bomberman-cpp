@@ -25,21 +25,5 @@ Vec2f Player::Move(Vec2f move)
 
 	m_actualPosition.Add(move);
 
-	if (m_actualPosition.x > 13.0f) 
-	{
-		m_actualPosition.x = 13.0f;
-	}
-	else if (m_actualPosition.x < 1.0f)
-	{
-		m_actualPosition.x = 1.0f;
-	}
-	else if (m_actualPosition.y < 1.0f)
-	{
-		m_actualPosition.y = 1.0f;
-	}
-	else if (m_actualPosition.y > 11.0f)
-	{
-		m_actualPosition.y = 11.0f;
-	}
 	return m_actualPosition;
 }

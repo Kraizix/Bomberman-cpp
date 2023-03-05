@@ -11,7 +11,7 @@ public:
     EnemyManager(std::vector<std::vector<Entity*>>& _map);
     static EnemyManager* GetInstance(std::vector<std::vector<Entity*>>& _map);
     void RenderEnemies(sf::RenderTarget&, const Vec2f&);
-    void MoveEnemies();
+    void MoveEnemies(float);
     void PushM_Enemy(Enemy*);
 private:
     static EnemyManager* m_instance;

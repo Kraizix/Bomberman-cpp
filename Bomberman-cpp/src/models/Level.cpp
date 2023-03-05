@@ -180,7 +180,6 @@ void Level::UpdateTrap()
 bool Level::GetCaseType(Vec2f _pos, Vec2f _direction)
 {
 	float x1, x2, y1, y2;
-	std::cout << _pos.x << ":" << _pos.y << std::endl;
 	if (_direction.x != 0)
 	{
 		x1 = _direction.x == 1 ? ceil(_pos.x-0.05f) : floor(_pos.x+0.05);
@@ -201,7 +200,7 @@ void Level::GenerateAI()
 {
 	std::random_device r;
 	std::default_random_engine e(r());
-	int n = 3;
+	int n = 1;
 	while (n > 0)
 	{
 		std::uniform_int_distribution<int> dist(0, m_emptyPos.size() - 1);

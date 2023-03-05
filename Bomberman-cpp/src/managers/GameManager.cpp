@@ -72,9 +72,11 @@ bool GameManager::Run(const std::string& _title, const Vec2i& _size)
 
     sf::Clock clock;
     sf::Time t1 = clock.restart();
+    float deltaT = clock.restart().asSeconds();
     float t2 = 0;
     while (window->isOpen())
     {
+        deltaT = clock.restart().asSeconds();
         t1 = clock.getElapsedTime();
         sf::Event event;
         int boum = 3;
@@ -113,7 +115,7 @@ bool GameManager::Run(const std::string& _title, const Vec2i& _size)
                 }
             }
         }
-        enemyManager->MoveEnemies();
+        enemyManager->MoveEnemies(deltaT);
         window->clear();
         window->setView(view);
         level->RenderLevel(*window, tileSize, placeBomb);

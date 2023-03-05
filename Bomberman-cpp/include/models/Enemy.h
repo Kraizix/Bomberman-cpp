@@ -7,11 +7,11 @@ class Enemy : public Entity
 {
 public:
     Enemy(const Vec2f&);
-    void Move(std::vector<std::vector<Entity*>>);
-    void GetNextPosition(std::vector<std::vector<Entity*>>);
+    void Move(std::vector<std::vector<Entity*>>, float delta);
+    void GetNextPosition();
 private:
     Vec2f* m_direction;
-    int m_steps;
+    float m_steps;
     float m_speed;
     float m_speedCoeficient;
 };
