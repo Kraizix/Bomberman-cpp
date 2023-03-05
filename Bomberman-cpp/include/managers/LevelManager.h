@@ -10,6 +10,7 @@ public:
 	LevelManager(LevelManager& _other) = delete;
 	void operator=(const LevelManager& _other) = delete;
 	static LevelManager* GetInstance();
+	Level* GetLevel();
 
 	Level* LoadLevel(const std::string& _fileName);
 

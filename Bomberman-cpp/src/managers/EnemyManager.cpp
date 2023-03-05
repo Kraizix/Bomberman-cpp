@@ -1,4 +1,5 @@
 ﻿#include "./managers/EnemyManager.h"
+#include <managers/LevelManager.h>
 
 EnemyManager::EnemyManager(std::vector<std::vector<Entity*>>& _map):m_map(_map)
 {
@@ -30,10 +31,11 @@ void EnemyManager::PushM_Enemy(Enemy* entity)
     m_enemies.push_back(entity);
 }
 
-void EnemyManager::MoveEnemies(float deltaT)
+void EnemyManager::MoveEnemies(float* DeltaT)
 {
+    
     for (Enemy* enemy : m_enemies)
     {
-        enemy->Move(m_map,deltaT);
+        enemy->Move(m_map,DeltaT,LevelManager::GetInstance()->GetLevel()->GetPlayer());
     }
 }

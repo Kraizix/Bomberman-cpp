@@ -13,6 +13,11 @@ LevelManager* LevelManager::GetInstance()
 	return m_instance;
 }
 
+Level* LevelManager::GetLevel()
+{
+	return m_level;
+}
+
 LevelManager::LevelManager()
 {
 	m_level = nullptr;
