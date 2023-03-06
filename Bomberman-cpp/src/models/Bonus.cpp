@@ -16,7 +16,7 @@ void Bonus::PowerUp(Player* _player, Bombs* _bombs)
 	switch (m_bonusType) 
 	{
 	case SpeedUp:
-		_player->SetspeedCoeficient(0.1);
+		_player->SetspeedCoeficient(0.05);
 		break;
 	case ExplosionUp:
 		_bombs->SetRadius(1);
