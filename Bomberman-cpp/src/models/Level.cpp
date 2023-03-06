@@ -88,6 +88,7 @@ bool Level::LoadLevel(const std::string& _fileName)
 
 		m_player = new Player({ 1,1 });
 		m_bomb = new Bombs({ -1,-1 }, 1);
+		m_bonus = new Bonus(SpeedUp, { 1,2 });
 
 		file.close();
 		m_emptyPos.erase(std::remove(m_emptyPos.begin(), m_emptyPos.end(), Vec2u{ 2,1 }), m_emptyPos.end());
@@ -138,10 +139,12 @@ void Level::RenderLevel(sf::RenderTarget& _target, const Vec2f& _tileSize, bool&
 	m_bomb->SetSize(_tileSize);
 	m_bomb->Render(_target);
 
+	m_bonus->SetSize(_tileSize);
+	m_bonus->Render(_target);
+
 	EnemyManager::GetInstance(m_map)->RenderEnemies(_target, _tileSize);
 	m_player->SetSize(_tileSize);
 	m_player->Render(_target);
-
 }
 
 void Level::GenerateBox()
@@ -237,8 +240,6 @@ std::vector<std::vector<Entity*>>& Level::GetMap()
 }
 
 
-
-
 void Level::MovePlayer(Vec2f _pos, Vec2f _direction) {
 	int* tileType = GetTileType(_pos, _direction);
 	if (m_player == nullptr || *tileType <= 0)
@@ -249,6 +250,11 @@ void Level::MovePlayer(Vec2f _pos, Vec2f _direction) {
 	}
 
 	m_player->SetPosition(_pos);
+
+	if ((m_bonus->GetPosition()->x == ceil(m_player->GetPosition()->x)) && (m_bonus->GetPosition()->y == ceil(m_player->GetPosition()->y)))
+	{
+		m_bonus->PowerUp(m_player, m_bomb);
+	}
 }
 
 Player* Level::GetPlayer()

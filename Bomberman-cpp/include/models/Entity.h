@@ -13,7 +13,8 @@ enum EntityType
 	TEnemy,
 	TBonus,
 	THatch,
-	TBomb
+	TBomb,
+
 };
 
 class Entity

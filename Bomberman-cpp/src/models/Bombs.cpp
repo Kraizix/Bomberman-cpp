@@ -23,3 +23,8 @@ void Bombs::Detonate(sf::Time _time, sf::Clock _clock, float _time2)
 	}
 	return;
 }
+
+void Bombs::SetRadius(int _value)
+{
+	m_radius += _value;
+}

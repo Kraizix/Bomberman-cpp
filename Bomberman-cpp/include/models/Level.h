@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Wall.h"
 #include "Bombs.h"
+#include "Bonus.h"
 #include "Hatch.h"
 
 class Level
@@ -31,6 +32,7 @@ public:
 private:
 	Player* m_player;
 	Bombs* m_bomb;
+	Bonus* m_bonus;
 	std::vector<std::vector<Entity*>> m_map;
 	std::vector<Vec2u> m_emptyPos;
 	Hatch* m_hatch;
