@@ -211,6 +211,7 @@
     <ClCompile Include="src\managers\LevelManager.cpp" />
     <ClCompile Include="src\managers\WindowManager.cpp" />
     <ClCompile Include="src\models\Bombs.cpp" />
+    <ClCompile Include="src\models\Bonus.cpp" />
     <ClCompile Include="src\models\Brick.cpp" />
     <ClCompile Include="src\models\Trap.cpp" />
     <ClCompile Include="src\models\Wall.cpp" />
@@ -300,6 +301,7 @@
     <ClInclude Include="include\managers\LevelManager.h" />
     <ClInclude Include="include\managers\WindowManager.h" />
     <ClInclude Include="include\models\Bombs.h" />
+    <ClInclude Include="include\models\Bonus.h" />
     <ClInclude Include="include\models\Brick.h" />
     <ClInclude Include="include\models\Enemy.h" />
     <ClInclude Include="include\models\Block.h" />

@@ -11,6 +11,8 @@ class Player : public Entity
 		Player(const Vec2f& _position);
 		virtual ~Player() = default;
 		Vec2f Move(Vec2f);
+		void SetspeedCoeficient(float _value);
+		void SetNbOfBomb(int _value);
 
 	private:
 		Vec2f m_actualPosition;

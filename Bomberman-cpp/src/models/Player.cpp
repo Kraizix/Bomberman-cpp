@@ -43,3 +43,13 @@ Vec2f Player::Move(Vec2f move)
 	}
 	return m_actualPosition;
 }
+
+void Player::SetspeedCoeficient(float _value)
+{
+	m_speedCoeficient += _value;
+}
+
+void Player::SetNbOfBomb(int _value)
+{
+	m_NbOfBomb +=  _value;
+}
