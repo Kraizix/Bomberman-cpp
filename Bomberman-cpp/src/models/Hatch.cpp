@@ -1,7 +1,7 @@
-#include "models/Trap.h"
+#include "models/Hatch.h"
 
 
-Trap::Trap(const Vec2f& _position)
+Hatch::Hatch(const Vec2f& _position)
 {
 	SetPosition(_position);
 	SetSprite("brick");
@@ -10,8 +10,13 @@ Trap::Trap(const Vec2f& _position)
 	m_textures.emplace_back("o_trap");
 }
 
-void Trap::changeTexture()
+void Hatch::changeTexture()
 {
 	index++;
 	SetSprite(m_textures[index]);
+}
+
+int* Hatch::GetIndex()
+{
+	return &index;
 }

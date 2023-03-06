@@ -8,6 +8,7 @@
 #include <managers/EnemyManager.h>
 #include <cmath>
 #include <models/Bombs.h>
+#include <managers/WindowManager.h>
 
 Level::~Level()
 {
@@ -165,20 +166,21 @@ void Level::GenerateBox()
 	Vec2u p = m_emptyPos[i];
 	std::cout << p.x << ", " << p.y << std::endl;
 	m_emptyPos.erase(m_emptyPos.begin() + i);
-	Trap* obs = new Trap(p);
+	Hatch* obs = new Hatch(p);
 	obs->Resize(Vec2f{ 64.0f, 64.0f });
-	m_trap = obs;
+	m_hatch = obs;
 	m_map[p.y][p.x] = obs;
 }
 
 void Level::UpdateTrap()
 {
-	m_trap->changeTexture();
-	m_trap->Resize(Vec2f{ 64.0f, 64.0f });
+	m_hatch->changeTexture();
+	m_hatch->Resize(Vec2f{ 64.0f, 64.0f });
 }
 
-bool Level::GetCaseType(Vec2f _pos, Vec2f _direction)
+int* Level::GetTileType(Vec2f _pos, Vec2f _direction)
 {
+	int result = 0;
 	float x1, x2, y1, y2;
 	if (_direction.x != 0)
 	{
@@ -186,16 +188,27 @@ bool Level::GetCaseType(Vec2f _pos, Vec2f _direction)
 		x2 = _direction.x == 1 ? ceil(_pos.x-0.05) : floor(_pos.x+0.05);
 		y1 = floor(_pos.y+0.05);
 		y2 = ceil(_pos.y-0.05);
-	}else if( _direction.y != 0)
+	}
+	else if( _direction.y != 0)
 	{
 		x1 = floor(_pos.x+0.05f);
 		x2 = ceil(_pos.x-0.05f);
 		y1 = _direction.y == 1 ? ceil(_pos.y-0.05) : floor(_pos.y+0.05);
 		y2 = _direction.y == 1 ? ceil(_pos.y-0.05) : floor(_pos.y+0.05);
 	}
-	std::cout << x1 << y1 << "//" << x2 << y2 << std::endl;
-	return m_map[y1][x1]->GetEntityType() != TWall && m_map[y1][x1]->GetEntityType() != TBrick && m_map[y2][x2]->GetEntityType() != TWall && m_map[y2][x2]->GetEntityType() != TBrick;
+
+	if (m_map[y1][x1]->GetEntityType() == THatch || m_map[y2][x2]->GetEntityType() == THatch)
+	{
+		//std::cout << *dynamic_cast<Hatch*>(m_map[y1][x1])->GetIndex() << std::endl;
+		if (*dynamic_cast<Hatch*>(m_map[y1][x1])->GetIndex() == 1) {
+			result = 2;
+			return &result;
+		}
+	}
+	result =  m_map[y1][x1]->GetEntityType() != TWall && m_map[y1][x1]->GetEntityType() != TBrick && m_map[y2][x2]->GetEntityType() != TWall && m_map[y2][x2]->GetEntityType() != TBrick;
+	return &result;
 }
+
 void Level::GenerateAI()
 {
 	std::random_device r;
@@ -227,14 +240,13 @@ std::vector<std::vector<Entity*>>& Level::GetMap()
 
 
 void Level::MovePlayer(Vec2f _pos, Vec2f _direction) {
-	if (m_player == nullptr || !GetCaseType(_pos, _direction))
+	int* tileType = GetTileType(_pos, _direction);
+	if (m_player == nullptr || *tileType <= 0)
 		return;
 
-	//std::cout << "floor : " << floor(_pos.x) << " " << floor(_pos.y) << std::endl;
-
-	//std::cout << "ceil : " << ceil(_pos.x) << " " << ceil(_pos.y) << std::endl;
-
-	//std::cout << "round : " << round(_pos.x) << " " << round(_pos.y) << std::endl;
+	if (*tileType == 2) {
+		WindowManager::GetInstance()->GetWindow()->close();
+	}
 
 	m_player->SetPosition(_pos);
 }

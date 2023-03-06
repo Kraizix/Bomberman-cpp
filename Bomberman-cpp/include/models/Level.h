@@ -9,7 +9,7 @@
 #include "Player.h"
 #include "Wall.h"
 #include "Bombs.h"
-#include "Trap.h"
+#include "Hatch.h"
 
 class Level
 {
@@ -23,7 +23,7 @@ public:
 	Player* GetPlayer();
 	Bombs* GetBombs();
 	void GenerateBox();
-	bool GetCaseType(Vec2f _pos, Vec2f _direction);
+	int* GetTileType(Vec2f _pos, Vec2f _direction);
 	void UpdateTrap();
 	void GenerateAI();
 	std::vector<std::vector<Entity*>>& GetMap();
@@ -33,5 +33,5 @@ private:
 	Bombs* m_bomb;
 	std::vector<std::vector<Entity*>> m_map;
 	std::vector<Vec2u> m_emptyPos;
-	Trap* m_trap;
+	Hatch* m_hatch;
 };

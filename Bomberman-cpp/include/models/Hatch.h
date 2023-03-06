@@ -1,12 +1,13 @@
 #pragma once
 #include "models/Entity.h"
 
-class Trap : public Entity
+class Hatch : public Entity
 {
 public:
-	Trap(const Vec2f& _position);
-	virtual ~Trap() = default;
+	Hatch(const Vec2f& _position);
+	virtual ~Hatch() = default;
 	void changeTexture();
+	int* GetIndex();
 private:
 	std::vector<std::string> m_textures;
 	int index = -1;
