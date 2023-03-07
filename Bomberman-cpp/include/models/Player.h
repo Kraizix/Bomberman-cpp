@@ -15,12 +15,12 @@ class Player : public Entity
 		void SetNbOfBomb(int _value);
 		float GetSpeed();
 		void SetDeltaT(float* _deltaT);
+		int m_NbOfBomb;
 
 	private:
 		float* deltaT;
 		Vec2f m_actualPosition;
 		float m_speed;
 		float m_speedCoeficient;
-		int m_NbOfBomb;
 };
 

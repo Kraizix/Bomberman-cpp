@@ -87,7 +87,7 @@ bool Level::LoadLevel(const std::string& _fileName)
 		}
 
 		m_player = new Player({ 1,1 });
-		m_bomb = new Bombs({ -1,-1 }, 1);
+		m_bomb = new Bombs({1, 1}, 1);
 
 		file.close();
 		m_emptyPos.erase(std::remove(m_emptyPos.begin(), m_emptyPos.end(), Vec2u{ 2,1 }), m_emptyPos.end());
@@ -120,13 +120,6 @@ Vec2f Level::GetSize(const Vec2f& _tileSize)
 
 void Level::RenderLevel(sf::RenderTarget& _target, const Vec2f& _tileSize, bool& _placeBomb)
 {
-
-	if (_placeBomb)
-	{
-		m_bomb->SetPosition(*m_player->GetPosition());
-		_placeBomb = false;
-	}
-
 	for (auto& row: m_map)
 	{
 		for(auto& val : row)
@@ -142,8 +135,14 @@ void Level::RenderLevel(sf::RenderTarget& _target, const Vec2f& _tileSize, bool&
 		val->Render(_target);
 	}
 
-	m_bomb->SetSize(_tileSize);
-	m_bomb->Render(_target);
+	if (_placeBomb)
+	{
+		m_bomb->SetPosition(*m_player->GetPosition());
+		m_bomb->SetSize(_tileSize);
+		m_bomb->Render(_target);
+		_placeBomb = false;
+	}
+
 	EnemyManager::GetInstance(m_map)->RenderEnemies(_target, _tileSize);
 	m_player->SetSize(_tileSize);
 	m_player->Render(_target);

@@ -19,9 +19,6 @@ void Bonus::PowerUp(Player* _player, Bombs* _bombs)
 		_player->SetspeedCoeficient(0.05);
 		SetPosition({ -1 , -1 });
 		break;
-	case ExplosionUp:
-		_bombs->SetRadius(1);
-		break;
 	case CapacityUp:
 		_player->SetNbOfBomb(1);
 		break;
