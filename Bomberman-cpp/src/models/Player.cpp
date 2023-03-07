@@ -18,10 +18,10 @@ Player::Player(const Vec2f& _position)
 
 Vec2f Player::Move(Vec2f move)
 {
-
+	std::cout << *deltaT << std::endl;
 	m_actualPosition = *GetPosition();
-	move.x *= (m_speed * m_speedCoeficient) / RATE;
-	move.y *= (m_speed * m_speedCoeficient) / RATE;
+	move.x *= (m_speed * m_speedCoeficient)*8* *deltaT;
+	move.y *= (m_speed * m_speedCoeficient)*8 * *deltaT;
 
 	m_actualPosition.Add(move);
 
@@ -36,4 +36,14 @@ void Player::SetspeedCoeficient(float _value)
 void Player::SetNbOfBomb(int _value)
 {
 	m_NbOfBomb +=  _value;
+}
+
+float Player::GetSpeed()
+{
+	return m_speedCoeficient;
+}
+
+void Player::SetDeltaT(float* _deltaT)
+{
+	deltaT = _deltaT;
 }

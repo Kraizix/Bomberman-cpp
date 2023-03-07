@@ -88,13 +88,13 @@ bool Level::LoadLevel(const std::string& _fileName)
 
 		m_player = new Player({ 1,1 });
 		m_bomb = new Bombs({ -1,-1 }, 1);
-		m_bonus = new Bonus(SpeedUp, { 1,2 });
 
 		file.close();
 		m_emptyPos.erase(std::remove(m_emptyPos.begin(), m_emptyPos.end(), Vec2u{ 2,1 }), m_emptyPos.end());
 		m_emptyPos.erase(std::remove(m_emptyPos.begin(), m_emptyPos.end(), Vec2u{ 1,2 }), m_emptyPos.end());
 		GenerateBox();
 		GenerateAI();
+		GenerateBonus();
 		return true;
 	}
 	else
@@ -136,12 +136,14 @@ void Level::RenderLevel(sf::RenderTarget& _target, const Vec2f& _tileSize, bool&
 		}
 	}
 
+	for (auto &val: m_bonus)
+	{
+		val->SetSize(_tileSize);
+		val->Render(_target);
+	}
+
 	m_bomb->SetSize(_tileSize);
 	m_bomb->Render(_target);
-
-	m_bonus->SetSize(_tileSize);
-	m_bonus->Render(_target);
-
 	EnemyManager::GetInstance(m_map)->RenderEnemies(_target, _tileSize);
 	m_player->SetSize(_tileSize);
 	m_player->Render(_target);
@@ -185,19 +187,20 @@ int* Level::GetTileType(Vec2f _pos, Vec2f _direction)
 {
 	int result = 0;
 	float x1, x2, y1, y2;
+	float offset = 0.05f;
 	if (_direction.x != 0)
 	{
-		x1 = _direction.x == 1 ? ceil(_pos.x-0.05f) : floor(_pos.x+0.05);
-		x2 = _direction.x == 1 ? ceil(_pos.x-0.05) : floor(_pos.x+0.05);
-		y1 = floor(_pos.y+0.05);
-		y2 = ceil(_pos.y-0.05);
+		x1 = _direction.x == 1 ? ceil(_pos.x-offset) : floor(_pos.x+offset);
+		x2 = _direction.x == 1 ? ceil(_pos.x-offset) : floor(_pos.x+offset);
+		y1 = floor(_pos.y+offset);
+		y2 = ceil(_pos.y-offset);
 	}
 	else if( _direction.y != 0)
 	{
-		x1 = floor(_pos.x+0.05f);
-		x2 = ceil(_pos.x-0.05f);
-		y1 = _direction.y == 1 ? ceil(_pos.y-0.05) : floor(_pos.y+0.05);
-		y2 = _direction.y == 1 ? ceil(_pos.y-0.05) : floor(_pos.y+0.05);
+		x1 = floor(_pos.x+offset);
+		x2 = ceil(_pos.x-offset);
+		y1 = _direction.y == 1 ? ceil(_pos.y-offset) : floor(_pos.y+offset);
+		y2 = _direction.y == 1 ? ceil(_pos.y-offset) : floor(_pos.y+offset);
 	}
 
 	if (m_map[y1][x1]->GetEntityType() == THatch || m_map[y2][x2]->GetEntityType() == THatch)
@@ -216,7 +219,7 @@ void Level::GenerateAI()
 {
 	std::random_device r;
 	std::default_random_engine e(r());
-	int n = 5;
+	int n = 1;
 	while (n > 0)
 	{
 		std::uniform_int_distribution<int> dist(0, m_emptyPos.size() - 1);
@@ -230,6 +233,25 @@ void Level::GenerateAI()
 		EnemyManager::GetInstance(m_map)->PushM_Enemy(enemy);
 		entity->Resize(Vec2f{ 64.0f, 64.0f });
 		m_map[p.y][p.x] = entity;
+		n--;
+	}
+}
+
+void Level::GenerateBonus()
+{
+	std::random_device r;
+	std::default_random_engine e(r());
+	int n = 3;
+	while (n > 0)
+	{
+		std::uniform_int_distribution<int> dist(0, m_emptyPos.size() - 1);
+		int i = dist(e);
+		Vec2u p = m_emptyPos[i];
+		std::cout << p.x << ", " << p.y << std::endl;
+		m_emptyPos.erase(m_emptyPos.begin() + i);
+		Bonus* b = new Bonus(SpeedUp,p);
+		m_bonus.emplace_back(b);
+		b->Resize(Vec2f{ 64.0f, 64.0f });
 		n--;
 	}
 }
@@ -249,12 +271,14 @@ void Level::MovePlayer(Vec2f _pos, Vec2f _direction) {
 		WindowManager::GetInstance()->GetWindow()->close();
 	}
 
-	m_player->SetPosition(_pos);
-
-	if ((m_bonus->GetPosition()->x == ceil(m_player->GetPosition()->x)) && (m_bonus->GetPosition()->y == ceil(m_player->GetPosition()->y)))
+	for(auto& b: m_bonus)
 	{
-		m_bonus->PowerUp(m_player, m_bomb);
+		if(roundf(m_player->GetPosition()->x) == b->GetPosition()->x && roundf(m_player->GetPosition()->y)== b->GetPosition()->y)
+		{
+			b->PowerUp(m_player, nullptr);
+		}
 	}
+	m_player->SetPosition(_pos);
 }
 
 Player* Level::GetPlayer()

@@ -75,6 +75,7 @@ bool GameManager::Run(const std::string& _title, const Vec2i& _size)
     sf::Time t1 = clock.restart();
     float deltaT = clockTime.restart().asSeconds();
     float t2 = 0;
+    level->GetPlayer()->SetDeltaT(&deltaT);
     while (window->isOpen())
     {
         deltaT = clockTime.restart().asSeconds();
@@ -116,6 +117,7 @@ bool GameManager::Run(const std::string& _title, const Vec2i& _size)
                 }
             }
         }
+        
         enemyManager->MoveEnemies(&deltaT);
         window->clear();
         window->setView(view);
@@ -138,6 +140,7 @@ bool GameManager::LoadResources()
     success &= assetManager->LoadTexture("map_assets/opened_trap.png", "o_trap");
     success &= assetManager->LoadTexture("map_assets/closed_trap.png", "c_trap");
     success &= assetManager->LoadTexture("bomb_animations/B1.png", "B1");
+    success &= assetManager->LoadTexture("map_assets/SpeedBonus.png", "Speed");
 
     if (success)
     {

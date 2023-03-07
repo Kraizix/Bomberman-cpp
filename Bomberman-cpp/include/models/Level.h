@@ -28,11 +28,12 @@ public:
 	void UpdateTrap();
 	void GenerateAI();
 	std::vector<std::vector<Entity*>>& GetMap();
+	void GenerateBonus();
 
 private:
 	Player* m_player;
 	Bombs* m_bomb;
-	Bonus* m_bonus;
+	std::vector<Bonus*> m_bonus;
 	std::vector<std::vector<Entity*>> m_map;
 	std::vector<Vec2u> m_emptyPos;
 	Hatch* m_hatch;
