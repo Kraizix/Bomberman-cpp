@@ -118,7 +118,7 @@ bool GameManager::Run(const std::string& _title, const Vec2i& _size)
         window->setView(view);
         level->RenderLevel(*window, tileSize, placeBomb);
         window->display();
-        level->GetBombs()->Detonate(t1,clock,t2);
+        level->GetBombs()->Detonate(t1,clock,t2, level->GetMap(), 1, placeBomb);
     }
     return true;
 }

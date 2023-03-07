@@ -15,17 +15,19 @@ Bombs::Bombs(Vec2f _pos, int _radius)
 	SetEntityType(TBomb);
 }
 
-void Bombs::Detonate(sf::Time _time, sf::Clock _clock, float _time2)
+void Bombs::Detonate(sf::Time _time, sf::Clock _clock, float _time2, std::vector<std::vector<Entity*>> map, int power, bool &placebomb)
 {
-	if (_time.asSeconds() - _time2 >= 3)
+	if (_time.asSeconds() - _time2 >= 3 && placebomb == true)
 	{
 		_time = _clock.restart();
+		Explosion(map, power);
 		this->SetPosition({ -1,-1 });
+		placebomb == false;
 	}
 	return;
 }
 
-bool explode_entity(std::vector<std::vector<Entity*>> map, Vec2f pos)
+bool Explode_entity(std::vector<std::vector<Entity*>> map, Vec2f pos)
 {
 	Entity* square = map[pos.y][pos.x];
 	EntityType type = square->GetEntityType();
@@ -62,13 +64,13 @@ void Bombs::Explosion(std::vector<std::vector<Entity*>> map, int power)
 
 	// à faire: arrondir la pos de la bombe pour des calculs exacts
 
-	for (int index = Bomb_pos->x; index > Bomb_pos->x - power || explode_entity(map, Bomb_pos_copy); index--)
-	{}
-	for (int index = Bomb_pos->y; index < Bomb_pos->y + power || explode_entity(map, Bomb_pos_copy); index++)
-	{}
-	for (int index = Bomb_pos->x; index < Bomb_pos->x + power || explode_entity(map, Bomb_pos_copy); index++)
-	{}
-	for (int index = Bomb_pos->y; index > Bomb_pos->y - power || explode_entity(map, Bomb_pos_copy); index--)
+	for (int index = Bomb_pos->x; index > Bomb_pos->x - power || Explode_entity(map, Bomb_pos_copy); index--)
+	{}															 
+	for (int index = Bomb_pos->y; index < Bomb_pos->y + power || Explode_entity(map, Bomb_pos_copy); index++)
+	{}															 
+	for (int index = Bomb_pos->x; index < Bomb_pos->x + power || Explode_entity(map, Bomb_pos_copy); index++)
+	{}															 
+	for (int index = Bomb_pos->y; index > Bomb_pos->y - power || Explode_entity(map, Bomb_pos_copy); index--)
 	{}
 	 /* while (Bomb_pos->y > Bomb_pos->y + power)
 	{
