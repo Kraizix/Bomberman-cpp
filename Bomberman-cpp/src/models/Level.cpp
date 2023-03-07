@@ -216,7 +216,7 @@ void Level::GenerateAI()
 {
 	std::random_device r;
 	std::default_random_engine e(r());
-	int n = 1;
+	int n = 5;
 	while (n > 0)
 	{
 		std::uniform_int_distribution<int> dist(0, m_emptyPos.size() - 1);

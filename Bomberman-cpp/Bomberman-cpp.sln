@@ -14,8 +14,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B8025091-7A48-4DD7-98E8-8E2314F59AFC}.Debug|x64.ActiveCfg = Debug|x64
 		{B8025091-7A48-4DD7-98E8-8E2314F59AFC}.Debug|x64.Build.0 = Debug|x64
-		{B8025091-7A48-4DD7-98E8-8E2314F59AFC}.Debug|x86.ActiveCfg = Debug|Win32
-		{B8025091-7A48-4DD7-98E8-8E2314F59AFC}.Debug|x86.Build.0 = Debug|Win32
+		{B8025091-7A48-4DD7-98E8-8E2314F59AFC}.Debug|x86.ActiveCfg = Release|x64
+		{B8025091-7A48-4DD7-98E8-8E2314F59AFC}.Debug|x86.Build.0 = Release|x64
 		{B8025091-7A48-4DD7-98E8-8E2314F59AFC}.Release|x64.ActiveCfg = Release|x64
 		{B8025091-7A48-4DD7-98E8-8E2314F59AFC}.Release|x64.Build.0 = Release|x64
 		{B8025091-7A48-4DD7-98E8-8E2314F59AFC}.Release|x86.ActiveCfg = Release|Win32
@@ -27,4 +27,4 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0198AAE0-1786-4A9C-A8AA-C0260EA12182}
 	EndGlobalSection
-EndGlobals
+EndGlobal
