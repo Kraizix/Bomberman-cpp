@@ -13,7 +13,6 @@ EnemyManager* EnemyManager::GetInstance(std::vector<std::vector<Entity*>>& _map)
     {
         m_instance = new EnemyManager(_map);
     }
-
     return m_instance;
 }
 

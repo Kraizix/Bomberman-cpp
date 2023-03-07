@@ -81,8 +81,5 @@ sf::Font* AssetManager::GetFont(const std::string& _assetId)
 	{
 		return m_fonts.at(_assetId);
 	}
-	else
-	{
-		return nullptr;
-	}
+	return nullptr;
 }

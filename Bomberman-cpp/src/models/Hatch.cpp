@@ -1,6 +1,6 @@
 #include "models/Hatch.h"
 
-
+// TODO : Faire ouvrir la trappe quand tous les ennemis sont morts
 Hatch::Hatch(const Vec2f& _position)
 {
 	SetPosition(_position);
@@ -12,8 +12,9 @@ Hatch::Hatch(const Vec2f& _position)
 
 void Hatch::changeTexture()
 {
-	index++;
+	index = 1;
 	SetSprite(m_textures[index]);
+	Resize({ 64,64 });
 }
 
 int* Hatch::GetIndex()

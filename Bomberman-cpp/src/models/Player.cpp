@@ -6,7 +6,7 @@ Player::Player(const Vec2f& _position)
 {
 	SetPosition(_position);
 	m_actualPosition = _position;
-	m_speed = 2.0f; // in pixel per second
+	m_speed = 2.0f;
 	m_speedCoeficient = 1.0f;
 	m_NbOfBomb = 1;
 	SetPosition({1,1});
@@ -18,13 +18,10 @@ Player::Player(const Vec2f& _position)
 
 Vec2f Player::Move(Vec2f move)
 {
-	std::cout << *deltaT << std::endl;
 	m_actualPosition = *GetPosition();
 	move.x *= (m_speed * m_speedCoeficient)*8* *deltaT;
 	move.y *= (m_speed * m_speedCoeficient)*8 * *deltaT;
-
 	m_actualPosition.Add(move);
-
 	return m_actualPosition;
 }
 

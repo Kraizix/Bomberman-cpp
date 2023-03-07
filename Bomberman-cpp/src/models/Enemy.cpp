@@ -20,7 +20,7 @@ Enemy::Enemy(const Vec2f& position)
 void Enemy::Move(std::vector<std::vector<Entity*>> Map, float* DeltaT, Player* Player)
 {
     Vec2f move = *m_direction;
-    //détermine the movement
+    //détermine le movement
     move.x *= (m_speed * m_speedCoeficient);
     move.y *= (m_speed * m_speedCoeficient);
     Vec2f currentPosition = *GetPosition();
@@ -41,8 +41,6 @@ void Enemy::Move(std::vector<std::vector<Entity*>> Map, float* DeltaT, Player* P
         y2 = m_direction->y == 1 ? ceil(currentPosition.y - 0.05) : floor(currentPosition.y + 0.05);
     }
 
-    //std::cout << x1 <<" : " << y1 << " // " << x2 << " : " << y2 << std::endl;
-    //std::cout << Map[y1][x1]->GetEntityType() << " // " << Map[y2][x2]->GetEntityType() << std::endl << std::endl;
 
     if (roundf(currentPosition.x) == roundf(Player->GetPosition()->x) && roundf(currentPosition.y) == roundf(Player->GetPosition()->y)) {
         WindowManager::GetInstance()->GetWindow()->close();
@@ -55,11 +53,7 @@ void Enemy::Move(std::vector<std::vector<Entity*>> Map, float* DeltaT, Player* P
         GetNextPosition();
         Move(Map, DeltaT, Player);
         return;
-    }
-
-    //std::cout << std::round(GetPosition()->y + m_direction->y) << " " << std::round(GetPosition()->x + m_direction->x) << std::endl;
-
-    
+    }    
     SetPosition(currentPosition);
     m_steps -= 64**DeltaT;
 }
@@ -70,8 +64,7 @@ void Enemy::GetNextPosition()
     std::mt19937 rng(device());
     std::uniform_int_distribution<std::mt19937::result_type> dist6(3, 10);
 
-    //generate a direction
-    // take a nbr of step to do
+    // Génération d'une direction aléatoire
 
     int rnd = dist6(rng);
     m_direction = new Vec2f();

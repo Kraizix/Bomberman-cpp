@@ -108,22 +108,28 @@ bool GameManager::Run(const std::string& _title, const Vec2i& _size)
                     level->MovePlayer(player->Move({ 1,0 }), { 1,0 });
                     break;
                 case sf::Keyboard::Space:
+                    // Affichage de la trappe
                     level->UpdateTrap();
                     break;
                 case sf::Keyboard::E:
-                    placeBomb = true;
-                    t2 = clock.getElapsedTime().asSeconds();
-                    break;
+                    if(level->GetBombs() == nullptr)
+                    {
+                        placeBomb = true;
+                        t2 = clock.getElapsedTime().asSeconds();
+                        break;
+                    }                    
                 }
             }
         }
-        
         enemyManager->MoveEnemies(&deltaT);
         window->clear();
         window->setView(view);
         level->RenderLevel(*window, tileSize, placeBomb);
         window->display();
-        level->GetBombs()->Detonate(t1,clock,t2);
+        if(level->GetBombs() != nullptr)
+        {
+            level->GetBombs()->Detonate(t1, clock, t2);
+        }
     }
     return true;
 }

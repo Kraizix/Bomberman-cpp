@@ -87,7 +87,7 @@ bool Level::LoadLevel(const std::string& _fileName)
 		}
 
 		m_player = new Player({ 1,1 });
-		m_bomb = new Bombs({ -1,-1 }, 1);
+		m_bomb = nullptr;
 
 		file.close();
 		m_emptyPos.erase(std::remove(m_emptyPos.begin(), m_emptyPos.end(), Vec2u{ 2,1 }), m_emptyPos.end());
@@ -120,11 +120,17 @@ Vec2f Level::GetSize(const Vec2f& _tileSize)
 
 void Level::RenderLevel(sf::RenderTarget& _target, const Vec2f& _tileSize, bool& _placeBomb)
 {
-
 	if (_placeBomb)
 	{
-		m_bomb->SetPosition(*m_player->GetPosition());
+		m_bomb = new Bombs({ round(m_player->GetPosition()->x),round(m_player->GetPosition()->y) }, 1, m_map, m_player);
+
 		_placeBomb = false;
+	} else if(m_bomb != nullptr)
+	{
+		if(!m_bomb->active)
+		{
+			m_bomb = nullptr;
+		}
 	}
 
 	for (auto& row: m_map)
@@ -141,9 +147,10 @@ void Level::RenderLevel(sf::RenderTarget& _target, const Vec2f& _tileSize, bool&
 		val->SetSize(_tileSize);
 		val->Render(_target);
 	}
-
-	m_bomb->SetSize(_tileSize);
-	m_bomb->Render(_target);
+	if (m_bomb != nullptr) {
+		m_bomb->SetSize(_tileSize);
+		m_bomb->Render(_target);
+	}
 	EnemyManager::GetInstance(m_map)->RenderEnemies(_target, _tileSize);
 	m_player->SetSize(_tileSize);
 	m_player->Render(_target);
@@ -153,13 +160,12 @@ void Level::GenerateBox()
 {
 	std::random_device r;
 	std::default_random_engine e(r());
-	int n = 10;
+	int n = 0;
 	while(n > 0)
 	{
 		std::uniform_int_distribution<int> dist(0, m_emptyPos.size() - 1);
 		int i = dist(e);
 		Vec2u p = m_emptyPos[i];
-		std::cout << p.x << ", " << p.y << std::endl;
 		m_emptyPos.erase(m_emptyPos.begin() + i);
 		Brick* obs = new Brick(p);
 		obs->Resize(Vec2f{ 64.0f, 64.0f });
@@ -169,7 +175,6 @@ void Level::GenerateBox()
 	std::uniform_int_distribution<int> dist(0, m_emptyPos.size() - 1);
 	int i = dist(e);
 	Vec2u p = m_emptyPos[i];
-	std::cout << p.x << ", " << p.y << std::endl;
 	m_emptyPos.erase(m_emptyPos.begin() + i);
 	Hatch* obs = new Hatch(p);
 	obs->Resize(Vec2f{ 64.0f, 64.0f });
@@ -205,11 +210,12 @@ int* Level::GetTileType(Vec2f _pos, Vec2f _direction)
 
 	if (m_map[y1][x1]->GetEntityType() == THatch || m_map[y2][x2]->GetEntityType() == THatch)
 	{
-		//std::cout << *dynamic_cast<Hatch*>(m_map[y1][x1])->GetIndex() << std::endl;
 		if (*dynamic_cast<Hatch*>(m_map[y1][x1])->GetIndex() == 1) {
 			result = 2;
 			return &result;
 		}
+		result = 0;
+		return &result;
 	}
 	result =  m_map[y1][x1]->GetEntityType() != TWall && m_map[y1][x1]->GetEntityType() != TBrick && m_map[y2][x2]->GetEntityType() != TWall && m_map[y2][x2]->GetEntityType() != TBrick;
 	return &result;
@@ -225,7 +231,6 @@ void Level::GenerateAI()
 		std::uniform_int_distribution<int> dist(0, m_emptyPos.size() - 1);
 		int i = dist(e);
 		Vec2u p = m_emptyPos[i];
-		std::cout << p.x << ", " << p.y << std::endl;
 		m_emptyPos.erase(m_emptyPos.begin() + i);
 		Enemy* enemy = new Enemy(p);
 		enemy->Resize(Vec2f{ 64.0f, 64.0f });
@@ -247,7 +252,6 @@ void Level::GenerateBonus()
 		std::uniform_int_distribution<int> dist(0, m_emptyPos.size() - 1);
 		int i = dist(e);
 		Vec2u p = m_emptyPos[i];
-		std::cout << p.x << ", " << p.y << std::endl;
 		m_emptyPos.erase(m_emptyPos.begin() + i);
 		Bonus* b = new Bonus(SpeedUp,p);
 		m_bonus.emplace_back(b);
@@ -266,11 +270,9 @@ void Level::MovePlayer(Vec2f _pos, Vec2f _direction) {
 	int* tileType = GetTileType(_pos, _direction);
 	if (m_player == nullptr || *tileType <= 0)
 		return;
-
 	if (*tileType == 2) {
 		WindowManager::GetInstance()->GetWindow()->close();
 	}
-
 	for(auto& b: m_bonus)
 	{
 		if(roundf(m_player->GetPosition()->x) == b->GetPosition()->x && roundf(m_player->GetPosition()->y)== b->GetPosition()->y)

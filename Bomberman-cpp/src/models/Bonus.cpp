@@ -1,6 +1,8 @@
 #include "models/Entity.h"
 #include "models/Bonus.h"
 
+
+//TODO : Cacher les bonus dans des murs
 Bonus::Bonus(BonusType _bonusType, Vec2f _pos)
 {
 	SetPosition(_pos);
@@ -13,7 +15,8 @@ Bonus::Bonus(BonusType _bonusType, Vec2f _pos)
 
 void Bonus::PowerUp(Player* _player, Bombs* _bombs)
 {
-	switch (m_bonusType) 
+	// Il y a seulement le boost de vitesse disponible
+	switch (m_bonusType)
 	{
 	case SpeedUp:
 		_player->SetspeedCoeficient(0.05);
